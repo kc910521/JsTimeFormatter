@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+  <div style="width:100% ;height: 300px;text-align: center;">
+    当前时间为(this time)：<span id="this_time"></span><br>
+    去年同期为(1 year ago)：<span id="time_last_year"></span><br>
+    去年1月同日期为(1 year ago with 1 month)：<span id="time_last_yrmon"></span><br>
+    约100个月之前(100 months ago)：<span id="time_old_era"></span><br>
+    30日之前(30 days ago)：<span id="time_thous"></span><br>
+    2000年1月1日的前一天：<span id="happy_time"></span>
+  </div>
+</body>
+
+<script src="scripts/MomentCk_0.1.js"></script>
+<script >
+  function init(){
+    var dt = new Date();
+    //alert("final:"+dt.momentFormatter("yyyy-1-mm-12-dd-30"));
+    document.getElementById ("this_time").innerHTML = dt.momentFormatter("yyyy年mm月dd日");
+    document.getElementById ("time_last_year").innerHTML = dt.momentFormatter("yyyy-1-mm-dd");
+    document.getElementById ("time_last_yrmon").innerHTML = dt.momentFormatter("yyyy-1-mm-13-dd-31");
+    document.getElementById ("time_old_era").innerHTML = dt.momentCk("yyyy/mm-99");
+    document.getElementById ("time_thous").innerHTML = dt.momentCk("yyyy-mm-dd-30");
+
+    var dt2 = new Date(2000,0,1);
+    document.getElementById ("happy_time").innerHTML = dt2.momentCk("yyyy-mm-dd-1");
+  }
+  window.init();
+</script>
+</html>
