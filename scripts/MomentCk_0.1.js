@@ -1,6 +1,6 @@
 /**
  * Created by KCSTATION on 2015/11/18.
- * version 0.1
+ * version 0.1.2
  *
  * date formatter,
  * for reduce year,month...
@@ -32,7 +32,7 @@ Date.prototype.momentCk = function (formatter){
       tm: this.getFullYear(),
       tmInterval: 1000 * 60 * 60 * 24 * 30 * 12
     }
-  }
+  };
   //sum reduced value
   var allTmReduce = 0;
   var formaterOrg = formatter;
@@ -46,12 +46,12 @@ Date.prototype.momentCk = function (formatter){
       //using rule[tmHeadRep[0][0] because of tmHeadRep[0] == ???,???
       var tmTmp = rule[tmHeadRep[0][0]];//eg:{tm:xxx,tmInterval:xxxxx}
       allTmReduce += tmReduce * parseInt(tmTmp['tmInterval']);
-      formatter = formatter.replaceTm(forTemp, tmTmp['tm']);
+      formatter = formatter.replaceTm(forTemp, tmTmp['tm'],tmHeadRep[0]);
     }else if(new RegExp("("+ regSour +"+)").test(formaterOrg)){
       var forTemp = RegExp.$1;
       var tmTmp = rule[forTemp[0]];
       //alert(forTemp+","+tmTmp);
-      formatter = formatter.replaceTm(forTemp, tmTmp['tm']);
+      formatter = formatter.replaceTm(forTemp, tmTmp['tm'],forTemp);
     }
   }
   //this time,formatter has get tmvalue ，eg:2012-01-01
@@ -71,7 +71,7 @@ Date.prototype.momentCk = function (formatter){
     return (new Date(tmStamp)).momentCk(lastRegExpStr);
   }
 
-}
+};
 
 /**
  * simple formater
@@ -90,7 +90,7 @@ Date.prototype.momentFormatter = function (formatter){
     "y": {
       tm: this.getFullYear(),
     }
-  }
+  };
   var formaterOrg = formatter;
   for(var regSour in rule){
     if(new RegExp("("+ regSour +"+\-(\\d+))").test(formaterOrg)) {
@@ -100,16 +100,16 @@ Date.prototype.momentFormatter = function (formatter){
       var tmHeadRep = new RegExp("("+regSour+"+)").exec(forTemp);//eg:yyyy
       var tmReduce = parseInt(new RegExp("(\\d+)").exec(forTemp));//eg:1
       var tmTmp = rule[tmHeadRep[0][0]];//eg:{tm:xxx}
-      formatter = formatter.replaceTm(forTemp, parseInt(tmTmp['tm'])-tmReduce);
+      formatter = formatter.replaceTm(forTemp, parseInt(tmTmp['tm'])-tmReduce,tmHeadRep[0]);
     }else if(new RegExp("("+ regSour +"+)").test(formaterOrg)){
       var forTemp = RegExp.$1;
       var tmTmp = rule[forTemp[0]];
       //alert(forTemp+","+tmTmp);
-      formatter = formatter.replaceTm(forTemp, tmTmp['tm']);
+      formatter = formatter.replaceTm(forTemp, tmTmp['tm'],forTemp);
     }
   }
   return formatter;
-}
+};
 
 /**
  * push 0 to tm which <= 9
@@ -117,15 +117,20 @@ Date.prototype.momentFormatter = function (formatter){
  * @param targetStr
  * @returns {string}
  */
-String.prototype.replaceTm = function (orgRegExp, targetStr) {
+String.prototype.replaceTm = function (orgRegExp, targetStr,modelStr) {
+  //var msLength = modelStr.length;
   try{
     if(parseInt(targetStr)<=0){
-      targetStr = "01";
-    }else if(parseInt(targetStr)<=9){
-      targetStr = "0"+targetStr;
+      targetStr = "1";
     }
   }catch(e){
     console.log("replaceTm error:"+e);
   }
-  return this.replace(orgRegExp,targetStr);
-}
+  var tarStrFn = targetStr;
+  //alert("modelStr.:"+modelStr+",targetStr.length:"+(targetStr+"").length+":::::orgRegExp:"+orgRegExp+",targetStr:"+targetStr);
+  for(var a = 0;a < ((modelStr+"").length-(targetStr+"").length); a++){
+    tarStrFn = "0"+ tarStrFn;
+  }
+  //alert(tarStrFn);
+  return this.replace(orgRegExp,tarStrFn);
+};
