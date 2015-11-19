@@ -17,7 +17,7 @@ javascript date formatter,formate then get old time
   dt.momentFormatter("yyyy-m-d")
   
   # Last Year With Jan #:                
-  dt.momentFormatter("yyyy-1-mm-13-d")
+  dt.momentFormatter("yyyy-1-mm-13")         
   
   # 30 Days Ago #:                              
   dt.momentCk("yyyy-m-d-30")
