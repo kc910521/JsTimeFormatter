@@ -74,6 +74,48 @@ Date.prototype.momentCk = function (formatter){
 };
 
 /**
+ * usage:
+ * regetDate("2016-03-01","yyyy-mm dd")
+ * you can get a date object from string
+ * by formatter
+ * 可以通过日期串得到日期的对象
+ * @param orgStr
+ * @param formatter
+ * @returns {*} date object
+ */
+function regetDate(orgStr,formatter){
+    if (orgStr == undefined || formatter == undefined){
+        console.log("ERROR:func regetDate parameter missed");
+        return null;
+    }
+    var year = "";
+    var month = "";
+    var day = "";
+    for (var idx = 0; idx < formatter.length; idx ++){
+        if (formatter[idx] == "Y" || formatter[idx] == "y"){
+            year = year + orgStr[idx] +"";
+        }
+        if (formatter[idx] == "m" || formatter[idx] == "M"){
+            month = month + orgStr[idx] +"";
+        }
+        if (formatter[idx] == "d" || formatter[idx] == "D"){
+            day = day + orgStr[idx] +"";
+        }
+    }
+    if (isNaN(year) || isNaN(month) || isNaN(day)){
+        console.log("NOT NUMBER ERROR");
+        return null;
+    }else{
+        if (month <= 0){
+            console.log("NOT NEED SUB 1 MONTH.");
+        }else{
+            month -= 1;
+        }
+    }
+    return new Date(year,month,day);
+}
+
+/**
  * simple formater
  * 有日期减法边界情况无法超越年或月边界
  * @param formatter
