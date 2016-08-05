@@ -26,6 +26,6 @@ javascript date formatter,formate then get old time
   var dt2 = new Date(2000,0,1);
   dt2.momentCk("yyyy-mm-dd-1")
   
-  #return Date Object From String
+  #return Date Object From String #:
   regetDate("2016-28-01","yyyy-dd-mm")
   
